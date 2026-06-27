@@ -52,7 +52,7 @@ export function Collection({
 
           <h2 className="hbigtitle" ref={bindTitle}>{c.name}</h2>
 
-          <div className="htrack-wrap mx-12" ref={bindWrap}>
+          <div className="htrack-wrap md:mx-12" ref={bindWrap}>
             <div className="htrack" ref={bindTrack}>
               {items.map((item, i) => {
                 if (item.accent) {
