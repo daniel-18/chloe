@@ -294,10 +294,17 @@ html,body,#root{height:100%;margin:0;background:var(--void);}
   .htitle{ font-size:2.6rem; }
   .htitle .g{ font-size:.36em; }
   .hlabel{ display:none; }
-  .hbigtitle{ font-size:19vw; }
+  .hbigtitle{ font-size:19vw; max-width:100%; overflow:hidden; }
+  .hsticky{ overflow-x:hidden; }
   .hsocial{ display:none; }
   .fan-out:nth-child(1),.fan-out:nth-child(5){ display:none; }
   .harrow{ width:46px; height:46px; }
+  /* new artwork: 2-column grid, safe padding */
+  .na-grid{ grid-template-columns:repeat(2,1fr); gap:2px; }
+  .new-artwork{ padding-left:clamp(12px,4vw,22px); padding-right:clamp(12px,4vw,22px); overflow-x:hidden; }
+  /* exhibit: contain any overflow */
+  .exhibit-section{ overflow-x:hidden; }
+  .es-stats{ gap:20px; }
 }
 @media (prefers-reduced-motion: reduce){
   .scroller{ scroll-behavior:auto; }

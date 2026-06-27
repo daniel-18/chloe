@@ -1,6 +1,6 @@
 /* ── discover gallery page ── */
 
-.dg-root{ min-height:100vh; background:var(--void,#f5f0e8); color:#16110e; font-family:'Poppins',system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
+.dg-root{ min-height:100vh; background:var(--void,#f5f0e8); color:#16110e; font-family:'Poppins',system-ui,sans-serif; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
 
 /* nav */
 .dg-nav{ position:sticky; top:0; z-index:50; background:var(--void,#f5f0e8); border-bottom:1px solid rgba(0,0,0,.08); display:flex; align-items:center; justify-content:space-between; padding:0 clamp(20px,4vw,56px); height:64px; }
@@ -181,4 +181,12 @@
   .dg-sidebar{ display:none; }
   .dg-grid{ grid-template-columns:repeat(2,1fr); gap:1px; }
   .dg-back span{ display:none; }
+}
+@media(max-width:420px){
+  /* stack paired fields in checkout form */
+  .co-row-2{ grid-template-columns:1fr; }
+  /* tighten drawer padding on very small screens */
+  .dg-drawer-items{ padding:14px 18px; }
+  .dg-drawer-head{ padding:18px 18px; }
+  .dg-drawer-foot{ padding:14px 18px; }
 }
