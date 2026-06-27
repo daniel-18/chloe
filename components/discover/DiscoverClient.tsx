@@ -53,7 +53,7 @@ export function DiscoverClient() {
       <header className="dg-hero">
         <p className="dg-hero-eyebrow">Original works & limited editions</p>
         <h1>Discover Gallery</h1>
-        <p>Acquire original artworks and numbered prints directly from the artists. Each piece ships with a certificate of authenticity.</p>
+        <p>Acquire original artworks and numbered prints directly from the artist Chloe. Each piece ships with a certificate of authenticity.</p>
       </header>
 
       {/* body */}
