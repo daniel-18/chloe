@@ -190,3 +190,9 @@
   .dg-drawer-head{ padding:18px 18px; }
   .dg-drawer-foot{ padding:14px 18px; }
 }
+
+/* lang switcher */
+.lang-switcher{ font-size:.75rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
+  color:#7a6f68; text-decoration:none; padding:5px 10px; border:1px solid rgba(0,0,0,.14);
+  border-radius:999px; transition:color .2s, border-color .2s; }
+.lang-switcher:hover{ color:#16110e; border-color:rgba(0,0,0,.3); }

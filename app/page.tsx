@@ -1,6 +1,5 @@
-import { GalleryClient } from "@/components/gallery/GalleryClient";
-import "./gallery.css";
+import { redirect } from "next/navigation";
 
 export default function Page() {
-  return <GalleryClient />;
+  redirect("/en");
 }

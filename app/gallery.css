@@ -310,3 +310,10 @@ html,body,#root{height:100%;margin:0;background:var(--void);}
   .scroller{ scroll-behavior:auto; }
   .hint-dot{ animation:none; }
 }
+
+/* lang switcher */
+.lang-switcher{ font-family:'Quicksand',sans-serif; font-weight:700; font-size:.75rem;
+  letter-spacing:.1em; text-transform:uppercase; color:#7a6f68; text-decoration:none;
+  padding:6px 12px; border:1.5px solid rgba(0,0,0,.14); border-radius:999px;
+  transition:color .2s, border-color .2s; }
+.lang-switcher:hover{ color:#16110e; border-color:rgba(0,0,0,.3); }

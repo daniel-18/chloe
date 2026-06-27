@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { CartItem } from "@/types/artwork";
+import { useDict } from "@/components/DictProvider";
 
 interface CartDrawerProps {
   open: boolean;
@@ -45,19 +46,16 @@ const CloseIcon = () => (
 );
 
 const initialForm = {
-  // contact
   email: "", phone: "",
-  // shipping
   shipName: "", shipAddr1: "", shipAddr2: "", shipCity: "", shipState: "", shipZip: "", shipCountry: "US",
-  // billing (when different from shipping)
   billAddr1: "", billAddr2: "", billCity: "", billState: "", billZip: "", billCountry: "US",
-  // card
   cardName: "", cardNumber: "", cardExpiry: "", cardCvv: "",
 };
 
 type FormState = typeof initialForm;
 
 export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawerProps) {
+  const dict = useDict();
   const [step, setStep] = useState<Step>("cart");
   const [pay, setPay] = useState<PayMethod>("apple");
   const [form, setForm] = useState<FormState>(initialForm);
@@ -85,23 +83,23 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
 
   const validate = () => {
     const e: Record<string, string> = {};
-    if (!/^\S+@\S+\.\S+$/.test(form.email)) e.email = "Valid email required";
-    if (!form.phone.trim()) e.phone = "Required";
-    if (!form.shipName.trim()) e.shipName = "Required";
-    if (!form.shipAddr1.trim()) e.shipAddr1 = "Required";
-    if (!form.shipCity.trim()) e.shipCity = "Required";
-    if (!form.shipState.trim()) e.shipState = "Required";
-    if (!form.shipZip.trim()) e.shipZip = "Required";
+    if (!/^\S+@\S+\.\S+$/.test(form.email)) e.email = dict.cart.errEmail;
+    if (!form.phone.trim()) e.phone = dict.cart.errRequired;
+    if (!form.shipName.trim()) e.shipName = dict.cart.errRequired;
+    if (!form.shipAddr1.trim()) e.shipAddr1 = dict.cart.errRequired;
+    if (!form.shipCity.trim()) e.shipCity = dict.cart.errRequired;
+    if (!form.shipState.trim()) e.shipState = dict.cart.errRequired;
+    if (!form.shipZip.trim()) e.shipZip = dict.cart.errRequired;
     if (!sameAddr) {
-      if (!form.billAddr1.trim()) e.billAddr1 = "Required";
-      if (!form.billCity.trim()) e.billCity = "Required";
-      if (!form.billState.trim()) e.billState = "Required";
-      if (!form.billZip.trim()) e.billZip = "Required";
+      if (!form.billAddr1.trim()) e.billAddr1 = dict.cart.errRequired;
+      if (!form.billCity.trim()) e.billCity = dict.cart.errRequired;
+      if (!form.billState.trim()) e.billState = dict.cart.errRequired;
+      if (!form.billZip.trim()) e.billZip = dict.cart.errRequired;
     }
-    if (!form.cardName.trim()) e.cardName = "Required";
-    if (form.cardNumber.replace(/\s/g, "").length < 16) e.cardNumber = "Invalid card number";
-    if (form.cardExpiry.length < 5) e.cardExpiry = "Invalid";
-    if (form.cardCvv.length < 3) e.cardCvv = "Invalid";
+    if (!form.cardName.trim()) e.cardName = dict.cart.errRequired;
+    if (form.cardNumber.replace(/\s/g, "").length < 16) e.cardNumber = dict.cart.errCardNumber;
+    if (form.cardExpiry.length < 5) e.cardExpiry = dict.cart.errInvalid;
+    if (form.cardCvv.length < 3) e.cardCvv = dict.cart.errInvalid;
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -111,30 +109,26 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
     setStep("confirmed");
   };
 
-  const inp = (key: keyof FormState, err?: string) => (
-    <span className={`co-input-err-wrap${err ? " has-err" : ""}`} />
-  );
-
   return (
     <>
       <div className={`dg-overlay${open ? " open" : ""}`} onClick={handleClose} aria-hidden="true" />
 
-      <div className={`dg-drawer${open ? " open" : ""}`} role="dialog" aria-modal="true" aria-label="Cart">
+      <div className={`dg-drawer${open ? " open" : ""}`} role="dialog" aria-modal="true" aria-label={dict.cart.title}>
 
         {/* ── CART ── */}
         {step === "cart" && (
           <>
             <div className="dg-drawer-head">
-              <h2 className="dg-drawer-title">Your Cart</h2>
-              <button className="dg-drawer-close" onClick={handleClose} aria-label="Close"><CloseIcon /></button>
+              <h2 className="dg-drawer-title">{dict.cart.title}</h2>
+              <button className="dg-drawer-close" onClick={handleClose} aria-label={dict.cart.close}><CloseIcon /></button>
             </div>
 
             <div className="dg-drawer-items">
               {items.length === 0 ? (
                 <div className="dg-empty">
                   <span className="dg-empty-icon">◻</span>
-                  <p>Your cart is empty.</p>
-                  <p style={{ fontSize: ".78rem", color: "#7a6f68" }}>Add an artwork to get started.</p>
+                  <p>{dict.cart.empty}</p>
+                  <p style={{ fontSize: ".78rem", color: "#7a6f68" }}>{dict.cart.emptyHint}</p>
                 </div>
               ) : items.map(({ artwork, quantity }) => (
                 <div className="dg-ci" key={artwork.id}>
@@ -144,7 +138,7 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
                     <p className="dg-ci-sub">{artwork.artist} · {artwork.edition}{quantity > 1 ? ` × ${quantity}` : ""}</p>
                     <p className="dg-ci-price">{fmt(artwork.price * quantity)}</p>
                   </div>
-                  <button className="dg-ci-remove" onClick={() => onRemove(artwork.id)} aria-label={`Remove ${artwork.title}`}>
+                  <button className="dg-ci-remove" onClick={() => onRemove(artwork.id)} aria-label={`${dict.cart.remove} ${artwork.title}`}>
                     <CloseIcon />
                   </button>
                 </div>
@@ -154,10 +148,10 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
             {items.length > 0 && (
               <div className="dg-drawer-foot">
                 <div className="dg-subtotal">
-                  <span className="dg-subtotal-label">Subtotal</span>
+                  <span className="dg-subtotal-label">{dict.cart.subtotal}</span>
                   <span className="dg-subtotal-value">{fmt(total)}</span>
                 </div>
-                <button className="dg-checkout" onClick={() => setStep("checkout")}>Proceed to checkout →</button>
+                <button className="dg-checkout" onClick={() => setStep("checkout")}>{dict.cart.proceedCheckout}</button>
               </div>
             )}
           </>
@@ -171,17 +165,17 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                   <path d="M19 12H5M11 6l-6 6 6 6" />
                 </svg>
-                Cart
+                {dict.cart.back}
               </button>
-              <h2 className="dg-drawer-title">Checkout</h2>
-              <button className="dg-drawer-close" onClick={handleClose} aria-label="Close"><CloseIcon /></button>
+              <h2 className="dg-drawer-title">{dict.cart.checkoutTitle}</h2>
+              <button className="dg-drawer-close" onClick={handleClose} aria-label={dict.cart.close}><CloseIcon /></button>
             </div>
 
             <div className="dg-drawer-items">
 
               {/* order summary */}
               <div className="co-section">
-                <p className="co-label">Order summary</p>
+                <p className="co-label">{dict.cart.orderSummary}</p>
                 {items.map(({ artwork, quantity }) => (
                   <div className="co-item" key={artwork.id}>
                     <img className="co-item-img" src={artwork.img} alt={artwork.title} draggable="false" />
@@ -190,27 +184,27 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
                   </div>
                 ))}
                 <div className="co-total-row">
-                  <span>Total</span>
+                  <span>{dict.cart.total}</span>
                   <span className="co-total-val">{fmt(total)}</span>
                 </div>
               </div>
 
               {/* payment method toggle */}
               <div className="co-section">
-                <p className="co-label">Payment method</p>
+                <p className="co-label">{dict.cart.paymentMethod}</p>
                 <div className="co-methods">
                   <button className={`co-method${pay === "apple" ? " active" : ""}`} onClick={() => setPay("apple")}>
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
                     </svg>
-                    Apple Pay
+                    {dict.cart.applePay}
                   </button>
                   <button className={`co-method${pay === "card" ? " active" : ""}`} onClick={() => setPay("card")}>
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
                       <rect x="2" y="5" width="20" height="14" rx="2"/>
                       <path d="M2 10h20"/>
                     </svg>
-                    Credit card
+                    {dict.cart.creditCard}
                   </button>
                 </div>
 
@@ -219,7 +213,7 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
                       <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
                     </svg>
-                    Pay with Apple Pay
+                    {dict.cart.payWithApple}
                   </button>
                 )}
               </div>
@@ -229,10 +223,10 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
                 <>
                   {/* contact */}
                   <div className="co-section">
-                    <p className="co-label">Contact</p>
+                    <p className="co-label">{dict.cart.contact}</p>
                     <div className="co-form">
                       <div className="co-field">
-                        <label className="co-field-label">Email address</label>
+                        <label className="co-field-label">{dict.cart.email}</label>
                         <input
                           className={`co-input${errors.email ? " co-input-err" : ""}`}
                           type="email"
@@ -244,7 +238,7 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
                         {errors.email && <span className="co-err-msg">{errors.email}</span>}
                       </div>
                       <div className="co-field">
-                        <label className="co-field-label">Phone number</label>
+                        <label className="co-field-label">{dict.cart.phone}</label>
                         <input
                           className={`co-input${errors.phone ? " co-input-err" : ""}`}
                           type="tel"
@@ -260,10 +254,10 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
 
                   {/* shipping address */}
                   <div className="co-section">
-                    <p className="co-label">Shipping address</p>
+                    <p className="co-label">{dict.cart.shipping}</p>
                     <div className="co-form">
                       <div className="co-field">
-                        <label className="co-field-label">Full name</label>
+                        <label className="co-field-label">{dict.cart.fullName}</label>
                         <input
                           className={`co-input${errors.shipName ? " co-input-err" : ""}`}
                           placeholder="Jane Smith"
@@ -274,7 +268,7 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
                         {errors.shipName && <span className="co-err-msg">{errors.shipName}</span>}
                       </div>
                       <div className="co-field">
-                        <label className="co-field-label">Address line 1</label>
+                        <label className="co-field-label">{dict.cart.addr1}</label>
                         <input
                           className={`co-input${errors.shipAddr1 ? " co-input-err" : ""}`}
                           placeholder="123 Main Street"
@@ -285,7 +279,7 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
                         {errors.shipAddr1 && <span className="co-err-msg">{errors.shipAddr1}</span>}
                       </div>
                       <div className="co-field">
-                        <label className="co-field-label">Address line 2 <span className="co-optional">(optional)</span></label>
+                        <label className="co-field-label">{dict.cart.addr2} <span className="co-optional">({dict.cart.optional})</span></label>
                         <input
                           className="co-input"
                           placeholder="Apt, suite, unit…"
@@ -296,7 +290,7 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
                       </div>
                       <div className="co-row-2">
                         <div className="co-field">
-                          <label className="co-field-label">City</label>
+                          <label className="co-field-label">{dict.cart.city}</label>
                           <input
                             className={`co-input${errors.shipCity ? " co-input-err" : ""}`}
                             placeholder="New York"
@@ -307,7 +301,7 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
                           {errors.shipCity && <span className="co-err-msg">{errors.shipCity}</span>}
                         </div>
                         <div className="co-field">
-                          <label className="co-field-label">State / Region</label>
+                          <label className="co-field-label">{dict.cart.stateRegion}</label>
                           <input
                             className={`co-input${errors.shipState ? " co-input-err" : ""}`}
                             placeholder="NY"
@@ -320,7 +314,7 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
                       </div>
                       <div className="co-row-2">
                         <div className="co-field">
-                          <label className="co-field-label">ZIP / Postal code</label>
+                          <label className="co-field-label">{dict.cart.zip}</label>
                           <input
                             className={`co-input${errors.shipZip ? " co-input-err" : ""}`}
                             placeholder="10001"
@@ -331,7 +325,7 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
                           {errors.shipZip && <span className="co-err-msg">{errors.shipZip}</span>}
                         </div>
                         <div className="co-field">
-                          <label className="co-field-label">Country</label>
+                          <label className="co-field-label">{dict.cart.country}</label>
                           <select
                             className="co-input co-select"
                             value={form.shipCountry}
@@ -349,7 +343,7 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
 
                   {/* billing address */}
                   <div className="co-section">
-                    <p className="co-label">Billing address</p>
+                    <p className="co-label">{dict.cart.billing}</p>
                     <label className="co-same-addr">
                       <input
                         type="checkbox"
@@ -364,13 +358,13 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
                           </svg>
                         )}
                       </span>
-                      Same as shipping address
+                      {dict.cart.sameAddr}
                     </label>
 
                     {!sameAddr && (
                       <div className="co-form" style={{ marginTop: "14px" }}>
                         <div className="co-field">
-                          <label className="co-field-label">Address line 1</label>
+                          <label className="co-field-label">{dict.cart.addr1}</label>
                           <input
                             className={`co-input${errors.billAddr1 ? " co-input-err" : ""}`}
                             placeholder="123 Main Street"
@@ -380,7 +374,7 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
                           {errors.billAddr1 && <span className="co-err-msg">{errors.billAddr1}</span>}
                         </div>
                         <div className="co-field">
-                          <label className="co-field-label">Address line 2 <span className="co-optional">(optional)</span></label>
+                          <label className="co-field-label">{dict.cart.addr2} <span className="co-optional">({dict.cart.optional})</span></label>
                           <input
                             className="co-input"
                             placeholder="Apt, suite, unit…"
@@ -390,7 +384,7 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
                         </div>
                         <div className="co-row-2">
                           <div className="co-field">
-                            <label className="co-field-label">City</label>
+                            <label className="co-field-label">{dict.cart.city}</label>
                             <input
                               className={`co-input${errors.billCity ? " co-input-err" : ""}`}
                               placeholder="New York"
@@ -400,7 +394,7 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
                             {errors.billCity && <span className="co-err-msg">{errors.billCity}</span>}
                           </div>
                           <div className="co-field">
-                            <label className="co-field-label">State / Region</label>
+                            <label className="co-field-label">{dict.cart.stateRegion}</label>
                             <input
                               className={`co-input${errors.billState ? " co-input-err" : ""}`}
                               placeholder="NY"
@@ -412,7 +406,7 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
                         </div>
                         <div className="co-row-2">
                           <div className="co-field">
-                            <label className="co-field-label">ZIP / Postal code</label>
+                            <label className="co-field-label">{dict.cart.zip}</label>
                             <input
                               className={`co-input${errors.billZip ? " co-input-err" : ""}`}
                               placeholder="10001"
@@ -422,7 +416,7 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
                             {errors.billZip && <span className="co-err-msg">{errors.billZip}</span>}
                           </div>
                           <div className="co-field">
-                            <label className="co-field-label">Country</label>
+                            <label className="co-field-label">{dict.cart.country}</label>
                             <select
                               className="co-input co-select"
                               value={form.billCountry}
@@ -440,10 +434,10 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
 
                   {/* card details */}
                   <div className="co-section">
-                    <p className="co-label">Card details</p>
+                    <p className="co-label">{dict.cart.cardDetails}</p>
                     <div className="co-form">
                       <div className="co-field">
-                        <label className="co-field-label">Name on card</label>
+                        <label className="co-field-label">{dict.cart.nameOnCard}</label>
                         <input
                           className={`co-input${errors.cardName ? " co-input-err" : ""}`}
                           placeholder="Jane Smith"
@@ -454,7 +448,7 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
                         {errors.cardName && <span className="co-err-msg">{errors.cardName}</span>}
                       </div>
                       <div className="co-field">
-                        <label className="co-field-label">Card number</label>
+                        <label className="co-field-label">{dict.cart.cardNumber}</label>
                         <div className="co-card-wrap">
                           <input
                             className={`co-input${errors.cardNumber ? " co-input-err" : ""}`}
@@ -475,7 +469,7 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
                       </div>
                       <div className="co-row-2">
                         <div className="co-field">
-                          <label className="co-field-label">Expiry</label>
+                          <label className="co-field-label">{dict.cart.expiry}</label>
                           <input
                             className={`co-input${errors.cardExpiry ? " co-input-err" : ""}`}
                             placeholder="MM / YY"
@@ -487,7 +481,7 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
                           {errors.cardExpiry && <span className="co-err-msg">{errors.cardExpiry}</span>}
                         </div>
                         <div className="co-field">
-                          <label className="co-field-label">CVV</label>
+                          <label className="co-field-label">{dict.cart.cvv}</label>
                           <input
                             className={`co-input${errors.cardCvv ? " co-input-err" : ""}`}
                             placeholder="123"
@@ -508,7 +502,7 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
                       <rect x="3" y="11" width="18" height="11" rx="2"/>
                       <path d="M7 11V7a5 5 0 0110 0v4"/>
                     </svg>
-                    256-bit SSL encryption
+                    {dict.cart.ssl}
                   </div>
                 </>
               )}
@@ -519,7 +513,7 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
                     <rect x="3" y="11" width="18" height="11" rx="2"/>
                     <path d="M7 11V7a5 5 0 0110 0v4"/>
                   </svg>
-                  256-bit SSL encryption
+                  {dict.cart.ssl}
                 </div>
               )}
             </div>
@@ -527,7 +521,7 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
             {pay === "card" && (
               <div className="dg-drawer-foot">
                 <button className="dg-checkout" onClick={handlePlaceOrder}>
-                  Place Order · {fmt(total)}
+                  {dict.cart.placeOrder} · {fmt(total)}
                 </button>
               </div>
             )}
@@ -542,14 +536,14 @@ export function CartDrawer({ open, onClose, items, total, onRemove }: CartDrawer
                 <polyline points="20 6 9 17 4 12"/>
               </svg>
             </div>
-            <h2 className="co-confirmed-title">Order placed!</h2>
+            <h2 className="co-confirmed-title">{dict.cart.orderPlaced}</h2>
             <p className="co-confirmed-sub">
-              A confirmation has been sent to{" "}
-              <strong>{form.email || "your email"}</strong>.
+              {dict.cart.confirmationSent}{" "}
+              <strong>{form.email || dict.cart.yourEmail}</strong>.
             </p>
             <p className="co-order-num">{orderNum}</p>
             <button className="dg-checkout co-continue-btn" onClick={() => { reset(); handleClose(); }}>
-              Continue browsing
+              {dict.cart.continueBrowsing}
             </button>
           </div>
         )}

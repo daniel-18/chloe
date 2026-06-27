@@ -4,6 +4,7 @@ import { two } from "@/lib/animation";
 import type { CollectionData } from "@/types/gallery";
 import { BgVideo } from "./BgVideo";
 import { Ico, Social, ICON_PATHS } from "./Icons";
+import { useDict } from "@/components/DictProvider";
 
 interface CollectionProps {
   collection: CollectionData;
@@ -28,6 +29,7 @@ export function Collection({
   bindWrap,
   onArrow,
 }: CollectionProps) {
+  const dict = useDict();
   const arts = (c.cards ?? []).map((x) => ({ ...x }));
   const items: (typeof arts[0] & { accent?: boolean })[] = [...arts];
   items.splice(Math.min(2, items.length), 0, { accent: true });
@@ -39,16 +41,11 @@ export function Collection({
       style={{ "--accent": c.accent } as React.CSSProperties}
     >
       <div className="hsticky">
-        {/* {c.video ? (
-          <BgVideo src={c.video} poster={c.poster} reduced={reduced} className="hbg-video" />
-        ) : (
-          <div className="hbg-accent" aria-hidden="true" />
-        )} */}
         <div className="hbg-accent" aria-hidden="true" />
         <div className="hbg-scrim" aria-hidden="true" />
 
         <div className="hmain" ref={bindMain}>
-          <p className="hlabel">{c.medium} · collection {two(index)}</p>
+          <p className="hlabel">{c.medium} · {dict.collection.collectionLabel} {two(index)}</p>
 
           <h2 className="hbigtitle" ref={bindTitle}>{c.name}</h2>
 
@@ -69,7 +66,7 @@ export function Collection({
                   return (
                     <div className="hcard hcard-empty" key={i}>
                       <span className="hc-plus">+</span>
-                      <span className="hc-ph">Awaiting artwork</span>
+                      <span className="hc-ph">{dict.collection.awaitingArtwork}</span>
                     </div>
                   );
                 }
@@ -87,21 +84,12 @@ export function Collection({
           </div>
 
           <div className="hbottom">
-            <div className="hbleft">
-              {/* <div className="hsocial">
-                <span><Social kind="fb" /></span>
-                <span><Social kind="ig" /></span>
-                <span><Social kind="tw" /></span>
-              </div>
-              <button className="visit">
-                Visit An Exhibition <Ico d={ICON_PATHS.ARROW} size={16} />
-              </button> */}
-            </div>
+            <div className="hbleft" />
             <div className="harrows">
-              <button className="harrow" onClick={() => onArrow(-1)} aria-label="Previous">
+              <button className="harrow" onClick={() => onArrow(-1)} aria-label={dict.collection.previous}>
                 <Ico d={ICON_PATHS.ARROWL} size={18} />
               </button>
-              <button className="harrow solid" onClick={() => onArrow(1)} aria-label="Next">
+              <button className="harrow solid" onClick={() => onArrow(1)} aria-label={dict.collection.next}>
                 <Ico d={ICON_PATHS.ARROW} size={18} />
               </button>
             </div>

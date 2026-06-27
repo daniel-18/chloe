@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { motion, useTransform, type MotionValue } from "framer-motion";
 import { clamp, smooth, fanPos } from "@/lib/animation";
 import { WELCOME_CARDS } from "@/data/collections";
 import { Ico, ICON_PATHS } from "./Icons";
+import { useDict } from "@/components/DictProvider";
 
 interface WelcomeProps {
   progress: MotionValue<number>;
@@ -12,6 +14,8 @@ interface WelcomeProps {
 }
 
 export function Welcome({ progress, reduced }: WelcomeProps) {
+  const dict = useDict();
+  const { lang } = useParams<{ lang: string }>();
   const d = useTransform(progress, (p) => -p);
   const opacity = useTransform(d, (v) =>
     reduced ? 1 : smooth(clamp(1 - Math.abs(v) / 0.66)),
@@ -31,18 +35,15 @@ export function Welcome({ progress, reduced }: WelcomeProps) {
 
       <motion.div className="hero-body" style={{ opacity, y: yShift }}>
         <h1 className="htitle">
-          <span className="g">Welcome to Chloe's </span>
-          <span className="w"> Gallery</span>
+          <span className="g">{dict.welcome.titleLine1} </span>
+          <span className="w"> {dict.welcome.titleLine2}</span>
           <br />
         </h1>
-        <p className="hsub">
-          Unleash your creativity and create masterpieces with AI at ArtSpace.
-          Share your digital artworks with the world.
-        </p>
+        <p className="hsub">{dict.welcome.subtitle}</p>
 
         <div className="hbtns">
-          <Link href="/discover" className="btn-dark" style={{ textDecoration: "none" }}>
-            Discover Gallery{" "}
+          <Link href={`/${lang}/discover`} className="btn-dark" style={{ textDecoration: "none" }}>
+            {dict.welcome.discoverGallery}{" "}
             <span className="arrowc">
               <Ico d={ICON_PATHS.ARROW} size={15} />
             </span>
@@ -78,9 +79,6 @@ export function Welcome({ progress, reduced }: WelcomeProps) {
                       <div className="fc-title">{card.title}</div>
                       <div className="fc-artist">{card.artist}</div>
                     </div>
-                    {/* <button className="fc-heart" aria-label="Like artwork">
-                      <Ico d={ICON_PATHS.HEART} size={14} />
-                    </button> */}
                   </div>
                   <img
                     className="fcard-art"
@@ -96,7 +94,7 @@ export function Welcome({ progress, reduced }: WelcomeProps) {
       </motion.div>
 
       <div className="scrollcue" aria-hidden="true">
-        <span className="hint-dot" /> scroll to explore
+        <span className="hint-dot" /> {dict.welcome.scrollToExplore}
       </div>
     </section>
   );

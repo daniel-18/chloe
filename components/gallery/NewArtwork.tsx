@@ -2,17 +2,19 @@
 
 import { NEW_ARTWORKS } from "@/data/collections";
 import { Ico, ICON_PATHS } from "./Icons";
+import { useDict } from "@/components/DictProvider";
 
 export function NewArtwork() {
+  const dict = useDict();
   return (
     <section className="new-artwork">
       <div className="na-header">
         <div>
-          <p className="na-eyebrow">Just added</p>
-          <h2 className="na-title">New Artwork</h2>
+          <p className="na-eyebrow">{dict.newArtwork.eyebrow}</p>
+          <h2 className="na-title">{dict.newArtwork.title}</h2>
         </div>
         <button className="na-cta">
-          View all <Ico d={ICON_PATHS.ARROW} size={14} />
+          {dict.newArtwork.viewAll} <Ico d={ICON_PATHS.ARROW} size={14} />
         </button>
       </div>
 

@@ -2,6 +2,7 @@
 
 import { Fragment } from "react";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { useReducedMotion, motion, useTransform } from "framer-motion";
 import { COLLECTIONS } from "@/data/collections";
 import { useScrollGallery } from "@/hooks/useScrollGallery";
@@ -10,8 +11,12 @@ import { NewArtwork } from "./NewArtwork";
 import { Collection } from "./Collection";
 import { ExhibitSection } from "./ExhibitSection";
 import { Ico, ICON_PATHS } from "./Icons";
+import { useDict } from "@/components/DictProvider";
+import { LangSwitcher } from "@/components/LangSwitcher";
 
 export function GalleryClient() {
+  const dict = useDict();
+  const { lang } = useParams<{ lang: string }>();
   const reduced = useReducedMotion();
   const { scroller, progress, onScroll, goHome, arrowFor, bind } =
     useScrollGallery(COLLECTIONS.length, reduced);
@@ -23,9 +28,6 @@ export function GalleryClient() {
     <div className="folio-root">
       <nav className="hnav">
         <button className="brand" onClick={goHome}>
-          {/* <span className="logo">
-            <Ico d={ICON_PATHS.STAR} size={18} />
-          </span> */}
           <span className="brandname">CHLOE</span>
         </button>
 
@@ -33,10 +35,12 @@ export function GalleryClient() {
           className="nav-after-hero"
           style={reduced ? { opacity: 1 } : { opacity: navLinkOpacity, y: navLinkY }}
         >
-          <Link href="/discover" className="nav-gallery-link">
-            Gallery
+          <Link href={`/${lang}/discover`} className="nav-gallery-link">
+            {dict.nav.gallery}
           </Link>
         </motion.div>
+
+        <LangSwitcher />
       </nav>
 
       <div
@@ -45,7 +49,7 @@ export function GalleryClient() {
         tabIndex={0}
         onScroll={onScroll}
         role="region"
-        aria-label="ArtSpace — scroll to move between collections; collections pan sideways."
+        aria-label={dict.welcome.ariaScroller}
       >
         <Welcome progress={progress} reduced={reduced} />
         <NewArtwork />

@@ -3,6 +3,7 @@
 import { useRef, useEffect } from "react";
 import type { CollectionData } from "@/types/gallery";
 import { Ico, ICON_PATHS } from "./Icons";
+import { useDict } from "@/components/DictProvider";
 
 interface ExhibitSectionProps {
   collection: CollectionData;
@@ -10,6 +11,7 @@ interface ExhibitSectionProps {
 }
 
 export function ExhibitSection({ collection, index }: ExhibitSectionProps) {
+  const dict = useDict();
   const videoRef = useRef<HTMLVideoElement>(null);
   const filmRef = useRef<HTMLDivElement>(null);
 
@@ -67,30 +69,26 @@ export function ExhibitSection({ collection, index }: ExhibitSectionProps) {
                   <path d="M8 5v14l11-7z" />
                 </svg>
               </span>
-              Now showing
+              {dict.exhibit.nowShowing}
             </div>
           </div>
 
           <div className="es-content">
-            <div className="es-number">No. {num} — Current Exhibit</div>
+            <div className="es-number">No. {num} — {dict.exhibit.currentExhibit}</div>
             <h2 className="es-title">{collection.name}</h2>
             <p className="es-desc">{collection.blurb}</p>
             <div className="es-stats">
               <div className="es-stat">
-                <div className="es-stat-label">Artist</div>
+                <div className="es-stat-label">{dict.exhibit.artistLabel}</div>
                 <div className="es-stat-value">Chloe</div>
               </div>
               <div className="es-stat">
-                <div className="es-stat-label">Works</div>
+                <div className="es-stat-label">{dict.exhibit.worksLabel}</div>
                 <div className="es-stat-value">{worksCount || "—"}</div>
               </div>
-              {/* <div className="es-stat">
-                <div className="es-stat-label">Closes</div>
-                <div className="es-stat-value">—</div>
-              </div> */}
             </div>
             <a href="#" className="es-link">
-              View in gallery
+              {dict.exhibit.viewInGallery}
               <Ico d={ICON_PATHS.ARROW} size={16} />
             </a>
           </div>

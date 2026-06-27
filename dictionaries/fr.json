@@ -1,0 +1,105 @@
+{
+  "nav": {
+    "gallery": "Galerie",
+    "backHome": "Retour",
+    "openCart": "Ouvrir le panier — {count} article",
+    "openCartPlural": "Ouvrir le panier — {count} articles"
+  },
+  "welcome": {
+    "titleLine1": "Bienvenue dans la",
+    "titleLine2": "Galerie de Chloé",
+    "subtitle": "Bienvenue dans la galerie de Chloé. Découvrez ses œuvres et achetez-les directement auprès de l'artiste.",
+    "discoverGallery": "Explorer la Galerie",
+    "scrollToExplore": "défiler pour explorer",
+    "ariaScroller": "Galerie de Chloé — défilez pour naviguer entre les collections ; les collections défilent latéralement."
+  },
+  "newArtwork": {
+    "eyebrow": "Tout juste ajouté",
+    "title": "Nouvelles Œuvres",
+    "viewAll": "Tout voir"
+  },
+  "collection": {
+    "collectionLabel": "collection",
+    "awaitingArtwork": "Œuvre à venir",
+    "previous": "Précédent",
+    "next": "Suivant"
+  },
+  "exhibit": {
+    "currentExhibit": "Exposition en cours",
+    "nowShowing": "En ce moment",
+    "artistLabel": "Artiste",
+    "worksLabel": "Œuvres",
+    "viewInGallery": "Voir en galerie"
+  },
+  "discover": {
+    "eyebrow": "Œuvres originales & éditions limitées",
+    "title": "Explorer la Galerie",
+    "subtitle": "Acquérez des œuvres originales et des tirages numérotés directement auprès de l'artiste Chloé. Chaque pièce est livrée avec un certificat d'authenticité.",
+    "work": "œuvre",
+    "works": "œuvres"
+  },
+  "filter": {
+    "medium": "Médium",
+    "sortBy": "Trier par",
+    "sortNewest": "Plus récent",
+    "sortPriceAsc": "Prix : croissant",
+    "sortPriceDesc": "Prix : décroissant",
+    "sortArtist": "Artiste A–Z"
+  },
+  "cart": {
+    "title": "Votre Panier",
+    "empty": "Votre panier est vide.",
+    "emptyHint": "Ajoutez une œuvre pour commencer.",
+    "subtotal": "Sous-total",
+    "proceedCheckout": "Passer à la caisse →",
+    "checkoutTitle": "Paiement",
+    "back": "Panier",
+    "orderSummary": "Récapitulatif",
+    "total": "Total",
+    "paymentMethod": "Moyen de paiement",
+    "applePay": "Apple Pay",
+    "creditCard": "Carte bancaire",
+    "payWithApple": "Payer avec Apple Pay",
+    "contact": "Contact",
+    "email": "Adresse e-mail",
+    "phone": "Numéro de téléphone",
+    "shipping": "Adresse de livraison",
+    "fullName": "Nom complet",
+    "addr1": "Adresse ligne 1",
+    "addr2": "Adresse ligne 2",
+    "optional": "optionnel",
+    "city": "Ville",
+    "stateRegion": "Région / Département",
+    "zip": "Code postal",
+    "country": "Pays",
+    "billing": "Adresse de facturation",
+    "sameAddr": "Identique à l'adresse de livraison",
+    "cardDetails": "Détails de la carte",
+    "nameOnCard": "Nom sur la carte",
+    "cardNumber": "Numéro de carte",
+    "expiry": "Expiration",
+    "cvv": "CVV",
+    "ssl": "Chiffrement SSL 256 bits",
+    "placeOrder": "Passer commande",
+    "orderPlaced": "Commande passée !",
+    "confirmationSent": "Une confirmation a été envoyée à",
+    "yourEmail": "votre e-mail",
+    "continueBrowsing": "Continuer à parcourir",
+    "errEmail": "E-mail valide requis",
+    "errRequired": "Requis",
+    "errCardNumber": "Numéro de carte invalide",
+    "errInvalid": "Invalide",
+    "remove": "Retirer",
+    "close": "Fermer"
+  },
+  "artwork": {
+    "sold": "Vendu",
+    "addedToCart": "Ajouté au panier",
+    "addToCart": "Ajouter {title} au panier"
+  },
+  "lang": {
+    "current": "FR",
+    "other": "EN",
+    "otherLocale": "en"
+  }
+}

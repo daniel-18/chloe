@@ -1,0 +1,105 @@
+{
+  "nav": {
+    "gallery": "Gallery",
+    "backHome": "Back home",
+    "openCart": "Open cart — {count} item",
+    "openCartPlural": "Open cart — {count} items"
+  },
+  "welcome": {
+    "titleLine1": "Welcome to Chloe's",
+    "titleLine2": "Gallery",
+    "subtitle": "Welcome to Chloe's Gallery. Discover her artworks and buy them directly from the artist.",
+    "discoverGallery": "Discover Gallery",
+    "scrollToExplore": "scroll to explore",
+    "ariaScroller": "Chloe's Gallery — scroll to move between collections; collections pan sideways."
+  },
+  "newArtwork": {
+    "eyebrow": "Just added",
+    "title": "New Artwork",
+    "viewAll": "View all"
+  },
+  "collection": {
+    "collectionLabel": "collection",
+    "awaitingArtwork": "Awaiting artwork",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "exhibit": {
+    "currentExhibit": "Current Exhibit",
+    "nowShowing": "Now showing",
+    "artistLabel": "Artist",
+    "worksLabel": "Works",
+    "viewInGallery": "View in gallery"
+  },
+  "discover": {
+    "eyebrow": "Original works & limited editions",
+    "title": "Discover Gallery",
+    "subtitle": "Acquire original artworks and numbered prints directly from the artist Chloe. Each piece ships with a certificate of authenticity.",
+    "work": "work",
+    "works": "works"
+  },
+  "filter": {
+    "medium": "Medium",
+    "sortBy": "Sort by",
+    "sortNewest": "Newest",
+    "sortPriceAsc": "Price: low → high",
+    "sortPriceDesc": "Price: high → low",
+    "sortArtist": "Artist A–Z"
+  },
+  "cart": {
+    "title": "Your Cart",
+    "empty": "Your cart is empty.",
+    "emptyHint": "Add an artwork to get started.",
+    "subtotal": "Subtotal",
+    "proceedCheckout": "Proceed to checkout →",
+    "checkoutTitle": "Checkout",
+    "back": "Cart",
+    "orderSummary": "Order summary",
+    "total": "Total",
+    "paymentMethod": "Payment method",
+    "applePay": "Apple Pay",
+    "creditCard": "Credit card",
+    "payWithApple": "Pay with Apple Pay",
+    "contact": "Contact",
+    "email": "Email address",
+    "phone": "Phone number",
+    "shipping": "Shipping address",
+    "fullName": "Full name",
+    "addr1": "Address line 1",
+    "addr2": "Address line 2",
+    "optional": "optional",
+    "city": "City",
+    "stateRegion": "State / Region",
+    "zip": "ZIP / Postal code",
+    "country": "Country",
+    "billing": "Billing address",
+    "sameAddr": "Same as shipping address",
+    "cardDetails": "Card details",
+    "nameOnCard": "Name on card",
+    "cardNumber": "Card number",
+    "expiry": "Expiry",
+    "cvv": "CVV",
+    "ssl": "256-bit SSL encryption",
+    "placeOrder": "Place Order",
+    "orderPlaced": "Order placed!",
+    "confirmationSent": "A confirmation has been sent to",
+    "yourEmail": "your email",
+    "continueBrowsing": "Continue browsing",
+    "errEmail": "Valid email required",
+    "errRequired": "Required",
+    "errCardNumber": "Invalid card number",
+    "errInvalid": "Invalid",
+    "remove": "Remove",
+    "close": "Close"
+  },
+  "artwork": {
+    "sold": "Sold",
+    "addedToCart": "Added to cart",
+    "addToCart": "Add {title} to cart"
+  },
+  "lang": {
+    "current": "EN",
+    "other": "FR",
+    "otherLocale": "fr"
+  }
+}

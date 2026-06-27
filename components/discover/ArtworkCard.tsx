@@ -1,6 +1,7 @@
 "use client";
 
 import type { ArtworkProduct } from "@/types/artwork";
+import { useDict } from "@/components/DictProvider";
 
 interface ArtworkCardProps {
   artwork: ArtworkProduct;
@@ -12,20 +13,21 @@ const fmt = (n: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(n);
 
 export function ArtworkCard({ artwork, inCart, onAdd }: ArtworkCardProps) {
+  const dict = useDict();
   return (
     <div className="dg-card">
       <div className="dg-card-img">
         <img src={artwork.img} alt={artwork.title} draggable="false" />
 
         {!artwork.inStock && (
-          <span className="dg-sold-tag">Sold</span>
+          <span className="dg-sold-tag">{dict.artwork.sold}</span>
         )}
 
         {artwork.inStock && (
           <button
             className={`dg-add-btn${inCart ? " in-cart" : ""}`}
             onClick={() => onAdd(artwork)}
-            aria-label={inCart ? "Added to cart" : `Add ${artwork.title} to cart`}
+            aria-label={inCart ? dict.artwork.addedToCart : dict.artwork.addToCart.replace("{title}", artwork.title)}
           >
             {inCart ? (
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">

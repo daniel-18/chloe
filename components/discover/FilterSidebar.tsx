@@ -1,6 +1,7 @@
 "use client";
 
 import type { SortKey } from "@/types/artwork";
+import { useDict } from "@/components/DictProvider";
 
 interface FilterSidebarProps {
   mediums: string[];
@@ -10,18 +11,20 @@ interface FilterSidebarProps {
   onSort: (s: SortKey) => void;
 }
 
-const SORT_OPTIONS: { value: SortKey; label: string }[] = [
-  { value: "newest",     label: "Newest" },
-  { value: "price-asc",  label: "Price: low → high" },
-  { value: "price-desc", label: "Price: high → low" },
-  { value: "artist",     label: "Artist A–Z" },
-];
-
 export function FilterSidebar({ mediums, activeMedium, onMedium, sort, onSort }: FilterSidebarProps) {
+  const dict = useDict();
+
+  const sortOptions: { value: SortKey; label: string }[] = [
+    { value: "newest",     label: dict.filter.sortNewest },
+    { value: "price-asc",  label: dict.filter.sortPriceAsc },
+    { value: "price-desc", label: dict.filter.sortPriceDesc },
+    { value: "artist",     label: dict.filter.sortArtist },
+  ];
+
   return (
     <aside className="dg-sidebar">
       <div className="dg-filter-group">
-        <span className="dg-filter-heading">Medium</span>
+        <span className="dg-filter-heading">{dict.filter.medium}</span>
         {mediums.map((m) => (
           <button
             key={m}
@@ -34,13 +37,13 @@ export function FilterSidebar({ mediums, activeMedium, onMedium, sort, onSort }:
       </div>
 
       <div className="dg-filter-group">
-        <span className="dg-filter-heading">Sort by</span>
+        <span className="dg-filter-heading">{dict.filter.sortBy}</span>
         <select
           className="dg-sort-select"
           value={sort}
           onChange={(e) => onSort(e.target.value as SortKey)}
         >
-          {SORT_OPTIONS.map((o) => (
+          {sortOptions.map((o) => (
             <option key={o.value} value={o.value}>{o.label}</option>
           ))}
         </select>
