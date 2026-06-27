@@ -28,6 +28,24 @@ export function Welcome({ progress, reduced }: WelcomeProps) {
   return (
     <section className="welcome">
       <div className="bg-accent" style={{ "--accent": "#ff6a00" } as React.CSSProperties} aria-hidden="true" />
+
+      <motion.div className="hero-blob hb1" aria-hidden="true"
+        animate={reduced ? {} : { x: [0, -80, 20, -80, 0], y: [0, 60, 20, 60, 0] }}
+        transition={{ duration: 26, ease: "easeInOut", repeat: Infinity, times: [0, 0.35, 0.5, 0.75, 1] }}
+      />
+      <motion.div className="hero-blob hb2" aria-hidden="true"
+        animate={reduced ? {} : { x: [0, 100, 30, 100, 0], y: [0, -60, -20, -60, 0] }}
+        transition={{ duration: 32, ease: "easeInOut", repeat: Infinity, times: [0, 0.3, 0.5, 0.8, 1] }}
+      />
+      <motion.div className="hero-blob hb3" aria-hidden="true"
+        animate={reduced ? {} : { x: [0, -60, 10, -60, 0], y: [0, -70, -20, -70, 0], scale: [1, 0.9, 0.95, 0.9, 1] }}
+        transition={{ duration: 20, ease: "easeInOut", repeat: Infinity, times: [0, 0.4, 0.5, 0.7, 1] }}
+      />
+      <motion.div className="hero-blob hb4" aria-hidden="true"
+        animate={reduced ? {} : { x: [0, 50, 10, 50, 0], y: [0, 80, 30, 80, 0], scale: [1, 1.15, 1.05, 1.15, 1] }}
+        transition={{ duration: 15, ease: "easeInOut", repeat: Infinity, times: [0, 0.4, 0.5, 0.7, 1] }}
+      />
+
       <div className="dots" aria-hidden="true" />
       <span className="spark s1" aria-hidden="true">✦</span>
       <span className="spark s2" aria-hidden="true">✦</span>
