@@ -1,6 +1,8 @@
 "use client";
 
 import { useRef, useEffect } from "react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import type { CollectionData } from "@/types/gallery";
 import { Ico, ICON_PATHS } from "./Icons";
 import { useDict } from "@/components/DictProvider";
@@ -12,6 +14,7 @@ interface ExhibitSectionProps {
 
 export function ExhibitSection({ collection, index }: ExhibitSectionProps) {
   const dict = useDict();
+  const { lang } = useParams<{ lang: string }>();
   const videoRef = useRef<HTMLVideoElement>(null);
   const filmRef = useRef<HTMLDivElement>(null);
 
@@ -87,10 +90,13 @@ export function ExhibitSection({ collection, index }: ExhibitSectionProps) {
                 <div className="es-stat-value">{worksCount || "—"}</div>
               </div>
             </div>
-            <a href="#" className="es-link">
+            <Link
+              href={`/${lang}/discover?medium=${encodeURIComponent(collection.medium)}`}
+              className="es-link"
+            >
               {dict.exhibit.viewInGallery}
               <Ico d={ICON_PATHS.ARROW} size={16} />
-            </a>
+            </Link>
           </div>
 
         </div>

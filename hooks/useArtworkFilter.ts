@@ -12,14 +12,29 @@ export interface ArtworkFilterAPI {
   filtered: ArtworkProduct[];
 }
 
-export function useArtworkFilter(catalog: ArtworkProduct[]): ArtworkFilterAPI {
-  const [medium, setMedium] = useState("All");
-  const [sort, setSort] = useState<SortKey>("newest");
+/**
+ * Match a requested medium to a catalog medium, ignoring case and surrounding
+ * whitespace, and return the catalog's own spelling so exact-equality filtering
+ * and the active-button highlight both work. Falls back to "All" when the
+ * request is missing or matches nothing in the catalog.
+ */
+function resolveMedium(requested: string | undefined, options: string[]): string {
+  if (!requested) return "All";
+  const needle = requested.trim().toLowerCase();
+  return options.find((m) => m.toLowerCase() === needle) ?? "All";
+}
 
+export function useArtworkFilter(
+  catalog: ArtworkProduct[],
+  initialMedium?: string,
+): ArtworkFilterAPI {
   const mediums = useMemo(
     () => ["All", ...Array.from(new Set(catalog.map((a) => a.medium)))],
     [catalog],
   );
+
+  const [medium, setMedium] = useState(() => resolveMedium(initialMedium, mediums));
+  const [sort, setSort] = useState<SortKey>("newest");
 
   const filtered = useMemo(() => {
     const base =

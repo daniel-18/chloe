@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Chloe's Gallery",
-  description: "Chloe's Gallery",
+  title: "Chloe's - la machine creative",
+  description: "Chloe's Gallery. Discover her artworks and buy them directly from the artist.",
 };
 
 export default function RootLayout({

@@ -12,13 +12,18 @@ import { CartDrawer } from "./CartDrawer";
 import { useDict } from "@/components/DictProvider";
 import { LangSwitcher } from "@/components/LangSwitcher";
 
-export function DiscoverClient() {
+interface DiscoverClientProps {
+  /** Medium to pre-select in the filter sidebar, e.g. from `?medium=` */
+  initialMedium?: string;
+}
+
+export function DiscoverClient({ initialMedium }: DiscoverClientProps) {
   const dict = useDict();
   const { lang } = useParams<{ lang: string }>();
   const [cartOpen, setCartOpen] = useState(false);
   const { items, count, total, addItem, removeItem, isInCart } = useCart();
   const { medium, setMedium, sort, setSort, mediums, filtered } =
-    useArtworkFilter(ARTWORK_CATALOG);
+    useArtworkFilter(ARTWORK_CATALOG, initialMedium);
 
   const cartAriaLabel = count === 1
     ? dict.nav.openCart.replace("{count}", String(count))
